@@ -3,7 +3,10 @@
 const table = document.querySelector('table');
 const headers = document.querySelectorAll('thead th');
 const tbody = document.querySelector('tbody');
-const rows = Array.from(tbody.querySelectorAll('tr'));
+
+function getRows() {
+  return Array.from(tbody.querySelectorAll('tr'));
+}
 
 addRowClickListener();
 
@@ -18,6 +21,8 @@ headers.forEach((header, index) => {
       sortColumnIndex = index;
       sortDirection = 1;
     }
+
+    const rows = getRows();
 
     rows.sort((rowA, rowB) => {
       const cellA = rowA.children[index].textContent.trim();
@@ -51,9 +56,9 @@ headers.forEach((header, index) => {
 });
 
 function addRowClickListener() {
-  rows.forEach((row) => {
+  getRows().forEach((row) => {
     row.addEventListener('click', () => {
-      rows.forEach((r) => r.classList.remove('active'));
+      getRows().forEach((r) => r.classList.remove('active'));
       row.classList.add('active');
     });
   });
@@ -198,7 +203,6 @@ form.addEventListener('submit', (e) => {
   });
 
   tbody.appendChild(newRow);
-  rows.push(newRow);
   addRowClickListener();
 
   showNotification('Новий співробітник успішно доданий до таблиці.');
